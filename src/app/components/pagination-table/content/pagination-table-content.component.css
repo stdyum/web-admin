@@ -1,0 +1,18 @@
+.mat-column-actions {
+  box-sizing: content-box;
+  flex: unset;
+}
+
+mat-table {
+  background: unset;
+}
+
+section {
+  display: flex;
+  align-items: center;
+  padding: var(--indent1) var(--indent3) 0 var(--indent3);
+}
+
+section .spacer {
+  flex-grow: 1;
+}

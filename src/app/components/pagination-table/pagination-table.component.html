@@ -1,0 +1,16 @@
+<state-mapper [observable]="data$">
+  <ng-container *stateMapperLoadingState>
+    <pagination-table-state />
+  </ng-container>
+  <ng-container *stateMapperLoadedState="let data=data">
+    <pagination-table-content
+      [pagination]="data"
+      [displayColumns]="displayColumns()"
+      [actions]="actions()"
+      [tableActions]="tableActions()"
+      [options]="tableOptions(data)"
+      (next)="nextPage()"
+      (previous)="previousPage()"
+    />
+  </ng-container>
+</state-mapper>

@@ -1,0 +1,64 @@
+@if (pagination(); as pagination) {
+  <mat-table [dataSource]="items()">
+    @for (col of displayColumns(); track col) {
+      <ng-container [matColumnDef]="col.property">
+        <mat-header-cell *matHeaderCellDef>
+          {{ col.title }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let item">
+          {{ item[col.property] }}
+        </mat-cell>
+      </ng-container>
+    }
+
+    @if (actions(); as actions) {
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef [style.min-width.px]="actions.length * 48" />
+        <mat-cell *matCellDef="let item" [style.min-width.px]="actions.length * 48">
+          @for (action of actions; track action) {
+            @switch (action.buttonType) {
+              @case ('icon') {
+                <button mat-icon-button (click)="handleAction(action, item)">
+                  <mat-icon>{{ action.content }}</mat-icon>
+                </button>
+              }
+              @case ('text') {
+                <button mat-flat-button (click)="handleAction(action, item)">
+                  {{ action.content }}
+                </button>
+              }
+            }
+          }
+        </mat-cell>
+      </ng-container>
+    }
+
+    <mat-header-row *matHeaderRowDef="displayColumnsProps()" />
+    <mat-row *matRowDef="let row; columns: displayColumnsProps()" />
+  </mat-table>
+  <section>
+    @for (action of tableActions(); track action) {
+      @switch (action.buttonType) {
+        @case ('icon') {
+          <button mat-icon-button (click)="handleTableAction(action)">
+            <mat-icon>{{ action.content }}</mat-icon>
+          </button>
+        }
+        @case ('text') {
+          <button mat-flat-button (click)="handleTableAction(action)">
+            {{ action.content }}
+          </button>
+        }
+      }
+    }
+
+    <div class="spacer"></div>
+
+    <button mat-icon-button (click)="previous.emit()" [disabled]="!options()?.hasPrevious">
+      <mat-icon>arrow_back_ios_new</mat-icon>
+    </button>
+    <button mat-icon-button (click)="next.emit()" [disabled]="!options()?.hasNext">
+      <mat-icon>arrow_forward_ios</mat-icon>
+    </button>
+  </section>
+}

@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  width: 100%;
+  gap: var(--indent4);
+  padding: var(--indent2);
+}
+
+mat-tree {
+  background: unset;
+  width: 200px;
+}
+
+router-outlet {
+  display: none;
+}
+
+:host::ng-deep > router-outlet + * {
+  flex-grow: 1;
+  overflow-x: scroll;
+}
+
+@media (max-width: 600px) {
+  :host {
+    flex-direction: column;
+  }
+}
+
