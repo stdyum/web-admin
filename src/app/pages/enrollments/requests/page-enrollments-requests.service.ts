@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Enrollment } from '@likdan/studyum-core';
+import { Enrollment, httpContextWithStudyPlace } from '@likdan/studyum-core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -10,10 +10,14 @@ export class PageEnrollmentsRequestsService {
   private http = inject(HttpClient);
 
   accept(enrollment: Enrollment): Observable<void> {
-    return this.http.post<void>(`api/studyplaces/v1/studyplaces/enrollments/accept/${enrollment.id}`, { accepted: true });
+    return this.http.post<void>(`api/studyplaces/v1/studyplaces/enrollments/accept/${enrollment.id}`, { accepted: true }, {
+      context: httpContextWithStudyPlace(),
+    });
   }
 
   block(enrollment: Enrollment): Observable<void> {
-    return this.http.post<void>(`api/studyplaces/v1/studyplaces/enrollments/block/${enrollment.id}`, { blocked: true });
+    return this.http.post<void>(`api/studyplaces/v1/studyplaces/enrollments/block/${enrollment.id}`, { blocked: true }, {
+      context: httpContextWithStudyPlace(),
+    });
   }
 }
