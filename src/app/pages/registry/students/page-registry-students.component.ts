@@ -30,7 +30,7 @@ import { fromPromise } from 'rxjs/internal/observable/innerFrom';
 export class PageRegistryStudentsComponent {
   displayColumns: DisplayColumn[] = [
     {
-      title: 'Name',
+      title: 'registry_students_column_name',
       property: 'name',
     },
   ];
@@ -56,7 +56,7 @@ export class PageRegistryStudentsComponent {
 
   tableActions: TableAction[] = [{
     buttonType: 'text',
-    content: 'Add',
+    content: 'registry_students_table_actions_add',
     action: this.add.bind(this),
   }];
 

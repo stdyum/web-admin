@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilderComponent, FormConfig } from '@likdan/form-builder-core';
 import { Buttons, Controls } from '@likdan/form-builder-material';
-import { Teacher } from '@likdan/studyum-core';
+import { Teacher, TranslationService } from '@likdan/studyum-core';
 import { Validators } from '@angular/forms';
 
 @Component({
@@ -18,12 +18,13 @@ import { Validators } from '@angular/forms';
 export class PageRegistrySubjectsItemComponent {
   private dialogRef = inject(MatDialogRef);
   private data = inject<Teacher | null>(MAT_DIALOG_DATA);
+  private translation = inject(TranslationService);
 
   formConfig = <FormConfig<any>>{
     controls: {
       name: {
         type: Controls.textInput,
-        label: 'Name',
+        label: this.translation.getTranslation('registry_subjects_form_name'),
         validators: [Validators.required],
       },
     },
@@ -32,7 +33,7 @@ export class PageRegistrySubjectsItemComponent {
     },
     submit: {
       button: Buttons.Submit.Flat,
-      buttonText: 'Submit',
+      buttonText: this.translation.getTranslation('registry_subjects_form_submit'),
       onSubmit: e => {
         if (!e.valid) return;
 

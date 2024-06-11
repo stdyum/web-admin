@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from '@angular/core';
 import { JsonPipe } from '@angular/common';
-import { Pagination } from '@likdan/studyum-core';
+import { Pagination, TranslationPipe } from '@likdan/studyum-core';
 import {
   MatCell,
   MatCellDef,
@@ -47,7 +47,6 @@ export interface TableOptions {
   selector: 'pagination-table-content',
   standalone: true,
   imports: [
-    JsonPipe,
     MatTable,
     MatHeaderCell,
     MatHeaderCellDef,
@@ -61,6 +60,7 @@ export interface TableOptions {
     MatIconButton,
     MatIcon,
     MatButton,
+    TranslationPipe
   ],
   templateUrl: './pagination-table-content.component.html',
   styleUrl: './pagination-table-content.component.css',

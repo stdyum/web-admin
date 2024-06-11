@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { FormBuilderComponent, FormConfig } from '@likdan/form-builder-core';
 import { Buttons, Controls } from '@likdan/form-builder-material';
-import { Enrollment } from '@likdan/studyum-core';
+import { Enrollment, TranslationService } from '@likdan/studyum-core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -17,19 +17,32 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class PageEnrolmentsAcceptedEditComponent {
   private dialogRef = inject(MatDialogRef);
   private data = inject<Enrollment>(MAT_DIALOG_DATA);
+  private translation = inject(TranslationService);
 
   formConfig = <FormConfig<any>>{
     controls: {
       permissions: {
         type: Controls.select,
-        label: 'Permissions',
+        label: this.translation.getTranslation('enrollments_accepted_form_permissions'),
         additionalFields: {
-          items: [
-            { value: 'enrollments', display: 'Enrollments' },
-            { value: 'registry', display: 'Registry' },
-            { value: 'schedule', display: 'Schedule' },
-            { value: 'journal', display: 'Journal' },
-          ],
+          items: computed(() => [
+            {
+              value: 'enrollments',
+              display: this.translation.getTranslation('enrollments_accepted_form_permissions_enrollments')(),
+            },
+            {
+              value: 'registry',
+              display: this.translation.getTranslation('enrollments_accepted_form_permissions_registry')(),
+            },
+            {
+              value: 'schedule',
+              display: this.translation.getTranslation('enrollments_accepted_form_permissions_schedule')(),
+            },
+            {
+              value: 'journal',
+              display: this.translation.getTranslation('enrollments_accepted_form_permissions_journal')(),
+            },
+          ]),
           multiple: true,
           searchable: false,
         },
@@ -40,7 +53,7 @@ export class PageEnrolmentsAcceptedEditComponent {
     },
     submit: {
       button: Buttons.Submit.Flat,
-      buttonText: 'Submit',
+      buttonText: this.translation.getTranslation('enrollments_accepted_form_submit'),
       onSubmit: e => {
         if (!e.valid) return;
 

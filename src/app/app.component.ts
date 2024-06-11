@@ -12,6 +12,7 @@ import {
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatIcon } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
+import { TranslationPipe } from '@likdan/studyum-core';
 
 interface Node {
   display: string;
@@ -29,7 +30,18 @@ interface ExampleFlatNode {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatTree, MatTreeNode, MatIcon, MatIconButton, MatTreeNodeToggle, MatTreeNodePadding, MatTreeNodeDef, RouterLink],
+  imports: [
+    RouterOutlet,
+    MatTree,
+    MatTreeNode,
+    MatIcon,
+    MatIconButton,
+    MatTreeNodeToggle,
+    MatTreeNodePadding,
+    MatTreeNodeDef,
+    RouterLink,
+    TranslationPipe
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -56,48 +68,48 @@ export class AppComponent {
   constructor() {
     this.dataSource.data = [
       {
-        display: 'Enrollments',
+        display: 'nav_enrollments',
         children: [
           {
-            display: 'Accepted',
+            display: 'nav_enrollments_accepted',
             url: '/enrollments/accepted',
           },
           {
-            display: 'Requests',
+            display: 'nav_enrollments_requests',
             url: '/enrollments/requests',
           },
         ],
       },
       {
-        display: 'Registry',
+        display: 'nav_registry',
         children: [
           {
-            display: 'Groups',
+            display: 'nav_registry_groups',
             url: '/registry/groups',
           },
           {
-            display: 'Rooms',
+            display: 'nav_registry_rooms',
             url: '/registry/rooms',
           },
           {
-            display: 'Students',
+            display: 'nav_registry_students',
             url: '/registry/students',
           },
           {
-            display: 'Subjects',
+            display: 'nav_registry_subjects',
             url: '/registry/subjects',
           },
           {
-            display: 'Teachers',
+            display: 'nav_registry_teachers',
             url: '/registry/teachers',
           },
         ],
       },
       {
-        display: 'Schedule',
+        display: 'nav_schedule',
       },
       {
-        display: 'Journal',
+        display: 'nav_journal',
       },
     ];
   }

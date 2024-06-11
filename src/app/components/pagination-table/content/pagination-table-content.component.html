@@ -3,7 +3,7 @@
     @for (col of displayColumns(); track col) {
       <ng-container [matColumnDef]="col.property">
         <mat-header-cell *matHeaderCellDef>
-          {{ col.title }}
+          {{ col.title | translation }}
         </mat-header-cell>
         <mat-cell *matCellDef="let item">
           {{ item[col.property] }}
@@ -46,7 +46,7 @@
         }
         @case ('text') {
           <button mat-flat-button (click)="handleTableAction(action)">
-            {{ action.content }}
+            {{ action.content | translation }}
           </button>
         }
       }

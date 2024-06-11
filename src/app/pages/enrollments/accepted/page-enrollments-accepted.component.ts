@@ -24,19 +24,19 @@ import { PageEnrolmentsAcceptedEditComponent } from './dialogs/edit/page-enrolme
 export class PageEnrollmentsAcceptedComponent {
   displayColumns: DisplayColumn[] = [
     {
-      title: 'Username',
+      title: 'enrollments_accepted_column_username',
       property: 'userName',
     },
     {
-      title: 'Role',
+      title: 'enrollments_accepted_column_role',
       property: 'role',
     },
     {
-      title: 'Type',
+      title: 'enrollments_accepted_column_type',
       property: 'typeTitle',
     },
     {
-      title: 'Permissions',
+      title: 'enrollments_accepted_column_permissions',
       property: 'permissions',
     },
   ];
