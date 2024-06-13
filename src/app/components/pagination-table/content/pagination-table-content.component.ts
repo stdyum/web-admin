@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal } from '@angular/core';
-import { JsonPipe } from '@angular/common';
 import { Pagination, TranslationPipe } from '@likdan/studyum-core';
 import {
   MatCell,
@@ -29,7 +28,7 @@ export interface PostActionOptions {
 export interface Action<T> {
   buttonType: 'icon' | 'text',
   content: string;
-  action: (item: T) => void | PostActionOptions | Observable<void | PostActionOptions>
+  action: (item: T) => void | PostActionOptions | Observable<void | PostActionOptions>;
 }
 
 export interface TableAction {
@@ -60,7 +59,7 @@ export interface TableOptions {
     MatIconButton,
     MatIcon,
     MatButton,
-    TranslationPipe
+    TranslationPipe,
   ],
   templateUrl: './pagination-table-content.component.html',
   styleUrl: './pagination-table-content.component.css',
@@ -72,6 +71,7 @@ export class PaginationTableContentComponent<T> {
   displayColumns = input<DisplayColumn[]>([]);
   actions = input<Action<T>[]>([]);
   tableActions = input<TableAction[]>([]);
+  getItemId = input<(item: T) => any>(i => (i as any).id);
 
   displayColumnsProps = computed(() => {
     const columns = this.displayColumns();
@@ -119,12 +119,8 @@ export class PaginationTableContentComponent<T> {
   }
 
   private removeItem(item: T): void {
-    const removalItemId = this.getItemId(item);
-    const items = this.items().filter(i => this.getItemId(i) !== removalItemId);
+    const removalItemId = this.getItemId()(item);
+    const items = this.items().filter(i => this.getItemId()(i) !== removalItemId);
     this.items.set(items);
-  }
-
-  private getItemId(item: T): number {
-    return (item as any).id;
   }
 }

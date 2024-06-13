@@ -39,6 +39,10 @@ export const routes: Routes = [
             path: 'teachers',
             loadComponent: () => import('./pages/registry/teachers/page-registry-teachers.component').then(c => c.PageRegistryTeachersComponent),
           },
+          {
+            path: 'students_groups',
+            loadComponent: () => import('./pages/registry/students_groups/page-registry-students-groups.component').then(c => c.PageRegistryStudentsGroupsComponent),
+          },
         ],
       },
       {

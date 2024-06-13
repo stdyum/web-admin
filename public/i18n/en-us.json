@@ -11,12 +11,14 @@
   "nav_registry_students": "Students",
   "nav_registry_subjects": "Subjects",
   "nav_registry_teachers": "Teachers",
+  "nav_registry_students_groups": "Students in groups",
   "nav_schedule": "Schedule",
   "nav_journal": "Journal",
   "enrollments_accepted_column_username": "Username",
   "enrollments_accepted_column_role": "Role",
   "enrollments_accepted_column_type": "Type",
   "enrollments_accepted_column_permissions": "Permissions",
+  "enrollments_accepted_form_permissions": "Permissions",
   "enrollments_accepted_form_permissions_enrollments": "Enrollments",
   "enrollments_accepted_form_permissions_registry": "Registry",
   "enrollments_accepted_form_permissions_schedule": "Schedule",
@@ -43,5 +45,11 @@
   "registry_teachers_column_name": "Name",
   "registry_teachers_table_actions_add": "Add",
   "registry_teachers_form_name": "Name",
-  "registry_teachers_form_submit": "Submit"
+  "registry_teachers_form_submit": "Submit",
+  "registry_students_groups_column_student_name": "Student name",
+  "registry_students_groups_column_group_name": "Group name",
+  "registry_students_groups_table_actions_add": "Add",
+  "registry_students_groups_form_student_name": "Student",
+  "registry_students_groups_form_group_name": "Group",
+  "registry_students_groups_form_submit": "Submit"
 }

@@ -103,13 +103,11 @@ export class AppComponent {
             display: 'nav_registry_teachers',
             url: '/registry/teachers',
           },
+          {
+            display: 'nav_registry_students_groups',
+            url: '/registry/students_groups',
+          },
         ],
-      },
-      {
-        display: 'nav_schedule',
-      },
-      {
-        display: 'nav_journal',
       },
     ];
   }

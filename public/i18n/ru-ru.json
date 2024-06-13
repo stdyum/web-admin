@@ -11,12 +11,14 @@
   "nav_registry_students": "Студенты",
   "nav_registry_subjects": "Предметы",
   "nav_registry_teachers": "Преподаватели",
+  "nav_registry_students_groups": "Группы студентов",
   "nav_schedule": "Расписание",
   "nav_journal": "Журнал",
   "enrollments_accepted_column_username": "Логин",
   "enrollments_accepted_column_role": "Роль",
   "enrollments_accepted_column_type": "Тип",
   "enrollments_accepted_column_permissions": "Права доступа",
+  "enrollments_accepted_form_permissions": "Права доступа",
   "enrollments_accepted_form_permissions_enrollments": "Зачисления",
   "enrollments_accepted_form_permissions_registry": "Реестр",
   "enrollments_accepted_form_permissions_schedule": "Расписание",
@@ -43,5 +45,11 @@
   "registry_teachers_column_name": "Название",
   "registry_teachers_table_actions_add": "Добавить",
   "registry_teachers_form_name": "Название",
-  "registry_teachers_form_submit": "Подтвердить"
+  "registry_teachers_form_submit": "Подтвердить",
+  "registry_students_groups_column_student_name": "Имя студента",
+  "registry_students_groups_column_group_name": "Имя группы",
+  "registry_students_groups_table_actions_add": "Добавить",
+  "registry_students_groups_form_student_name": "Студент",
+  "registry_students_groups_form_group_name": "Группа",
+  "registry_students_groups_form_submit": "Подтвердить"
 }

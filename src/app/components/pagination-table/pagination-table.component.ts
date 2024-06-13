@@ -31,6 +31,7 @@ export class PaginationTableComponent<T> {
   displayColumns = input<DisplayColumn[]>([]);
   actions = input<Action<T>[]>([]);
   tableActions = input<TableAction[]>([]);
+  getItemId = input<(item: T) => any>(i => (i as any).id);
 
   processor = signal<PaginationHttpProcessor<T> | null>(null);
 
