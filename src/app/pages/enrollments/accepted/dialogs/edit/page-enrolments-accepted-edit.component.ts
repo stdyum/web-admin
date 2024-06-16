@@ -28,19 +28,19 @@ export class PageEnrolmentsAcceptedEditComponent {
           items: computed(() => [
             {
               value: 'enrollments',
-              display: this.translation.getTranslation('enrollments_accepted_form_permissions_enrollments')(),
+              display: this.translation.getTranslation('permission_enrollments')(),
             },
             {
               value: 'registry',
-              display: this.translation.getTranslation('enrollments_accepted_form_permissions_registry')(),
+              display: this.translation.getTranslation('permission_registry')(),
             },
             {
               value: 'schedule',
-              display: this.translation.getTranslation('enrollments_accepted_form_permissions_schedule')(),
+              display: this.translation.getTranslation('permission_schedule')(),
             },
             {
               value: 'journal',
-              display: this.translation.getTranslation('enrollments_accepted_form_permissions_journal')(),
+              display: this.translation.getTranslation('permission_journal')(),
             },
           ]),
           multiple: true,

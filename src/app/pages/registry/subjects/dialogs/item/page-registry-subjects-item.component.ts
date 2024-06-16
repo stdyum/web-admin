@@ -13,6 +13,9 @@ import { Validators } from '@angular/forms';
   ],
   templateUrl: './page-registry-subjects-item.component.html',
   styleUrl: './page-registry-subjects-item.component.css',
+  host: {
+    class: 'accent-container',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageRegistrySubjectsItemComponent {

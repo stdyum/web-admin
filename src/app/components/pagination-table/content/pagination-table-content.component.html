@@ -1,3 +1,36 @@
+<section>
+  <fbm-text-input
+    class="form-field-mat-density-3"
+    [label]="'table_search' | translation"
+    [formControl]="searchControl"
+  />
+  <div class="actions">
+    @for (action of tableActions(); track action) {
+      @switch (action.buttonType) {
+        @case ('icon') {
+          <button mat-icon-button (click)="handleTableAction(action)">
+            <mat-icon>{{ action.content }}</mat-icon>
+          </button>
+        }
+        @case ('text') {
+          <button mat-flat-button (click)="handleTableAction(action)">
+            {{ action.content | translation }}
+          </button>
+        }
+      }
+    }
+  </div>
+
+  <div class="spacer"></div>
+
+  <button mat-icon-button (click)="previous.emit()" [disabled]="!options()?.hasPrevious">
+    <mat-icon>arrow_back_ios_new</mat-icon>
+  </button>
+  <button mat-icon-button (click)="next.emit()" [disabled]="!options()?.hasNext">
+    <mat-icon>arrow_forward_ios</mat-icon>
+  </button>
+</section>
+
 @if (pagination(); as pagination) {
   <mat-table [dataSource]="items()">
     @for (col of displayColumns(); track col) {
@@ -6,7 +39,11 @@
           {{ col.title | translation }}
         </mat-header-cell>
         <mat-cell *matCellDef="let item">
-          {{ item[col.property] }}
+          @if (col.transform) {
+            {{ col.transform(item[col.property])() }}
+          } @else {
+            {{ item[col.property] }}
+          }
         </mat-cell>
       </ng-container>
     }
@@ -36,29 +73,4 @@
     <mat-header-row *matHeaderRowDef="displayColumnsProps()" />
     <mat-row *matRowDef="let row; columns: displayColumnsProps()" />
   </mat-table>
-  <section>
-    @for (action of tableActions(); track action) {
-      @switch (action.buttonType) {
-        @case ('icon') {
-          <button mat-icon-button (click)="handleTableAction(action)">
-            <mat-icon>{{ action.content }}</mat-icon>
-          </button>
-        }
-        @case ('text') {
-          <button mat-flat-button (click)="handleTableAction(action)">
-            {{ action.content | translation }}
-          </button>
-        }
-      }
-    }
-
-    <div class="spacer"></div>
-
-    <button mat-icon-button (click)="previous.emit()" [disabled]="!options()?.hasPrevious">
-      <mat-icon>arrow_back_ios_new</mat-icon>
-    </button>
-    <button mat-icon-button (click)="next.emit()" [disabled]="!options()?.hasNext">
-      <mat-icon>arrow_forward_ios</mat-icon>
-    </button>
-  </section>
 }

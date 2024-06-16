@@ -8,6 +8,7 @@ import {
 import { filter, map, Observable, switchMap } from 'rxjs';
 import { PaginationTableComponent } from '../../../components/pagination-table/pagination-table.component';
 import {
+  ConfirmationDialog,
   PaginationHttpOptions,
   rememberStudyPlaceId,
   StudentGroup,
@@ -68,16 +69,28 @@ export class PageRegistryStudentsGroupsComponent {
     return item.studentId + item.groupId;
   }
 
-  add(): Observable<void> {
+  add(): Observable<PostActionOptions> {
     return fromPromise(import('./dialogs/item/page-registry-students-groups-item.component'))
       .pipe(map(c => c.PageRegistryStudentsGroupsItemComponent))
       .pipe(switchMap(c => this.dialog.open(c).afterClosed()))
       .pipe(filter(v => !!v))
-      .pipe(switchMap(v => this.service.add(v)));
+      .pipe(switchMap(v => this.service.add(v).pipe(map(() => v))))
+      .pipe(map(() => <PostActionOptions>{ addRow: true }));
   }
 
   delete(item: StudentGroup): Observable<PostActionOptions> {
-    return this.service.remove(item)
+    return this.dialog.open(ConfirmationDialog, {
+      data: {
+        title: 'dialogs_delete_confirmation_title',
+        body: 'dialogs_delete_confirmation_body',
+        confirmButtonText: 'dialogs_delete_confirmation_confirm_button',
+        confirmButtonColor: 'error',
+        cancelButtonText: 'dialogs_delete_confirmation_cancel_button',
+      },
+    })
+      .afterClosed()
+      .pipe(filter(v => !!v))
+      .pipe(switchMap(() => this.service.remove(item)))
       .pipe(map(() => <PostActionOptions>{ removeRow: true }));
   }
 }

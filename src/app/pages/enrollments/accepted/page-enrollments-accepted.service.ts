@@ -15,7 +15,7 @@ export class PageEnrollmentsAcceptedService {
     });
   }
 
-  edit(id: string, enrollment: Enrollment): Observable<void> {
+  update(id: string, enrollment: Enrollment): Observable<void> {
     return this.http.patch<void>(`api/studyplaces/v1/studyplaces/enrollments/${id}`, enrollment, {
       context: httpContextWithStudyPlace(),
     });

@@ -13,6 +13,9 @@ import { Validators } from '@angular/forms';
   ],
   templateUrl: './page-registry-students-groups-item.component.html',
   styleUrl: './page-registry-students-groups-item.component.css',
+  host: {
+    class: 'accent-container',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageRegistryStudentsGroupsItemComponent {
@@ -26,8 +29,10 @@ export class PageRegistryStudentsGroupsItemComponent {
         type: Controls.select,
         label: this.translation.getTranslation('registry_students_groups_form_student_name'),
         additionalFields: {
-          searchable: false,
-          items: this.registry.getStudentsPaginatedForSelect()
+          searchable: true,
+          searchInputText: this.translation.getTranslation('controls_select_search'),
+          loadNextButtonText: this.translation.getTranslation('controls_select_load_next'),
+          ...this.registry.getStudentsPaginatedSelectConfig(),
         },
         validators: [Validators.required],
       },
@@ -35,8 +40,10 @@ export class PageRegistryStudentsGroupsItemComponent {
         type: Controls.select,
         label: this.translation.getTranslation('registry_students_groups_form_group_name'),
         additionalFields: {
-          searchable: false,
-          items: this.registry.getGroupsPaginatedForSelect()
+          searchable: true,
+          searchInputText: this.translation.getTranslation('controls_select_search'),
+          loadNextButtonText: this.translation.getTranslation('controls_select_load_next'),
+          ...this.registry.getGroupsPaginatedSelectConfig(),
         },
         validators: [Validators.required],
       },

@@ -8,6 +8,7 @@ import {
 import { filter, map, Observable, switchMap } from 'rxjs';
 import { PaginationTableComponent } from '../../../components/pagination-table/pagination-table.component';
 import {
+  ConfirmationDialog,
   Group,
   GroupsService,
   PaginationHttpOptions,
@@ -65,24 +66,37 @@ export class PageRegistryGroupsComponent {
   private dialog = inject(MatDialog);
   private service = inject(GroupsService);
 
-  add(): Observable<void> {
+  add(): Observable<PostActionOptions> {
     return fromPromise(import('./dialogs/item/page-registry-groups-item.component'))
       .pipe(map(c => c.PageRegistryGroupsItemComponent))
       .pipe(switchMap(c => this.dialog.open(c).afterClosed()))
       .pipe(filter(v => !!v))
-      .pipe(switchMap(v => this.service.add(v)));
+      .pipe(switchMap(v => this.service.add(v)))
+      .pipe(map(v => <PostActionOptions>{ addRow: v }));
   }
 
-  update(item: Group): Observable<void> {
+  update(item: Group): Observable<PostActionOptions> {
     return fromPromise(import('./dialogs/item/page-registry-groups-item.component'))
       .pipe(map(c => c.PageRegistryGroupsItemComponent))
       .pipe(switchMap(c => this.dialog.open(c, { data: item }).afterClosed()))
       .pipe(filter(v => !!v))
-      .pipe(switchMap(v => this.service.update(item.id, v)));
+      .pipe(switchMap(v => this.service.update(item.id, v).pipe(map(() => v))))
+      .pipe(map(v => <PostActionOptions>{ updateRow: { ...item, ...v } }));
   }
 
   delete(item: Group): Observable<PostActionOptions> {
-    return this.service.remove(item)
+    return this.dialog.open(ConfirmationDialog, {
+      data: {
+        title: 'dialogs_delete_confirmation_title',
+        body: 'dialogs_delete_confirmation_body',
+        confirmButtonText: 'dialogs_delete_confirmation_confirm_button',
+        confirmButtonColor: 'error',
+        cancelButtonText: 'dialogs_delete_confirmation_cancel_button',
+      },
+    })
+      .afterClosed()
+      .pipe(filter(v => !!v))
+      .pipe(switchMap(() => this.service.remove(item)))
       .pipe(map(() => <PostActionOptions>{ removeRow: true }));
   }
 }

@@ -9,6 +9,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { filter, map, Observable, switchMap } from 'rxjs';
 import {
+  ConfirmationDialog,
   PaginationHttpOptions,
   rememberStudyPlaceId,
   Room,
@@ -63,24 +64,37 @@ export class PageRegistryRoomsComponent {
   private dialog = inject(MatDialog);
   private service = inject(RoomsService);
 
-  add(): Observable<void> {
+  add(): Observable<PostActionOptions> {
     return fromPromise(import('./dialogs/item/page-registry-rooms-item.component'))
       .pipe(map(c => c.PageRegistryRoomsItemComponent))
       .pipe(switchMap(c => this.dialog.open(c).afterClosed()))
       .pipe(filter(v => !!v))
-      .pipe(switchMap(v => this.service.add(v)));
+      .pipe(switchMap(v => this.service.add(v)))
+      .pipe(map(v => <PostActionOptions>{ addRow: v }));
   }
 
-  update(item: Room): Observable<void> {
+  update(item: Room): Observable<PostActionOptions> {
     return fromPromise(import('./dialogs/item/page-registry-rooms-item.component'))
       .pipe(map(c => c.PageRegistryRoomsItemComponent))
       .pipe(switchMap(c => this.dialog.open(c, { data: item }).afterClosed()))
       .pipe(filter(v => !!v))
-      .pipe(switchMap(v => this.service.update(item.id, v)));
+      .pipe(switchMap(v => this.service.update(item.id, v).pipe(map(() => v))))
+      .pipe(map(v => <PostActionOptions>{ updateRow: { ...item, ...v } }));
   }
 
   delete(item: Room): Observable<PostActionOptions> {
-    return this.service.remove(item)
+    return this.dialog.open(ConfirmationDialog, {
+      data: {
+        title: 'dialogs_delete_confirmation_title',
+        body: 'dialogs_delete_confirmation_body',
+        confirmButtonText: 'dialogs_delete_confirmation_confirm_button',
+        confirmButtonColor: 'error',
+        cancelButtonText: 'dialogs_delete_confirmation_cancel_button',
+      },
+    })
+      .afterClosed()
+      .pipe(filter(v => !!v))
+      .pipe(switchMap(() => this.service.remove(item)))
       .pipe(map(() => <PostActionOptions>{ removeRow: true }));
   }
 }

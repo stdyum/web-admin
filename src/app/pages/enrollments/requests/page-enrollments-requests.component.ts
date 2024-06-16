@@ -1,13 +1,20 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PaginationTableComponent } from '../../../components/pagination-table/pagination-table.component';
-import { Enrollment, PaginationHttpOptions, rememberStudyPlaceId, WITH_STUDYPLACE_ID } from '@likdan/studyum-core';
+import {
+  ConfirmationDialog,
+  Enrollment,
+  PaginationHttpOptions,
+  rememberStudyPlaceId,
+  WITH_STUDYPLACE_ID,
+} from '@likdan/studyum-core';
 import {
   Action,
   DisplayColumn,
   PostActionOptions,
 } from '../../../components/pagination-table/content/pagination-table-content.component';
 import { PageEnrollmentsRequestsService } from './page-enrollments-requests.service';
-import { map } from 'rxjs';
+import { filter, map, Observable, switchMap } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-page-enrollments-requests',
@@ -34,7 +41,6 @@ export class PageEnrollmentsRequestsComponent {
       property: 'typeTitle',
     },
   ];
-
   options = rememberStudyPlaceId(() => <PaginationHttpOptions>{
     url: 'api/studyplaces/v1/studyplaces/enrollments',
     savePrevious: false,
@@ -43,21 +49,39 @@ export class PageEnrollmentsRequestsComponent {
     },
     context: ctx => ctx.set(WITH_STUDYPLACE_ID, true),
   });
-
-  private service = inject(PageEnrollmentsRequestsService);
-
   actions: Action<Enrollment>[] = [
     {
       buttonType: 'icon',
       content: 'check',
-      action: item => this.service.accept(item)
-        .pipe(map(() => <PostActionOptions>{ removeRow: true })),
+      action: this.accept.bind(this),
     },
     {
       buttonType: 'icon',
       content: 'close',
-      action: item => this.service.block(item)
-        .pipe(map(() => <PostActionOptions>{ removeRow: true })),
+      action: this.block.bind(this),
     },
   ];
+  private dialog = inject(MatDialog);
+  private service = inject(PageEnrollmentsRequestsService);
+
+  private accept(item: Enrollment): Observable<PostActionOptions> {
+    return this.service.accept(item)
+      .pipe(map(() => <PostActionOptions>{ removeRow: true }));
+  }
+
+  private block(item: Enrollment): Observable<PostActionOptions> {
+    return this.dialog.open(ConfirmationDialog, {
+      data: {
+        title: 'dialogs_block_confirmation_title',
+        body: 'dialogs_block_confirmation_body',
+        confirmButtonText: 'dialogs_block_confirmation_confirm_button',
+        confirmButtonColor: 'error',
+        cancelButtonText: 'dialogs_block_confirmation_cancel_button',
+      },
+    })
+      .afterClosed()
+      .pipe(filter(v => !!v))
+      .pipe(switchMap(() => this.service.block(item)))
+      .pipe(map(() => <PostActionOptions>{ removeRow: true }));
+  }
 }

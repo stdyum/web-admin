@@ -5,6 +5,7 @@
   <ng-container *stateMapperLoadedState="let data=data">
     <pagination-table-content
       [pagination]="data"
+      [paginationOptions]="options()!"
       [displayColumns]="displayColumns()"
       [actions]="actions()"
       [tableActions]="tableActions()"
